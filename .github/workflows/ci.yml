@@ -1,4 +1,4 @@
-﻿name: Commerce Lakehouse CI
+name: Commerce Lakehouse CI
 
 on:
   push:
@@ -73,7 +73,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install \
             dbt-core==1.8.6 \
-            dbt-spark==1.8.0 \
+            "dbt-spark[session]==1.8.0" \
             isodate==0.6.1
 
       - name: Validate dbt project
