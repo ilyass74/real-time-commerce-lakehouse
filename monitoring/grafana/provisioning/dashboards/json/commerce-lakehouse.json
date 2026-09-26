@@ -1,0 +1,390 @@
+{
+    "annotations":  {
+                        "list":  [
+
+                                 ]
+                    },
+    "editable":  true,
+    "graphTooltip":  0,
+    "panels":  [
+                   {
+                       "id":  1,
+                       "type":  "stat",
+                       "title":  "Pipeline Status",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  6,
+                                       "x":  0,
+                                       "y":  0
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_pipeline_success",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  2,
+                       "type":  "stat",
+                       "title":  "DLQ Size",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  6,
+                                       "x":  6,
+                                       "y":  0
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_dlq_size",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  3,
+                       "type":  "stat",
+                       "title":  "Silver Orders",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  6,
+                                       "x":  12,
+                                       "y":  0
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_silver_orders",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  4,
+                       "type":  "stat",
+                       "title":  "Gold Orders",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  6,
+                                       "x":  18,
+                                       "y":  0
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_gold_orders",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  5,
+                       "type":  "stat",
+                       "title":  "Gold Revenue MAD",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  8,
+                                       "x":  0,
+                                       "y":  5
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_gold_revenue",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  6,
+                       "type":  "stat",
+                       "title":  "Customers",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  4,
+                                       "x":  8,
+                                       "y":  5
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_silver_customers",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  7,
+                       "type":  "stat",
+                       "title":  "Products",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  4,
+                                       "x":  12,
+                                       "y":  5
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_silver_products",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  8,
+                       "type":  "stat",
+                       "title":  "Order Items",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  4,
+                                       "x":  16,
+                                       "y":  5
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_silver_order_items",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  9,
+                       "type":  "stat",
+                       "title":  "Payments",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  4,
+                                       "x":  20,
+                                       "y":  5
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_silver_payments",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  10,
+                       "type":  "timeseries",
+                       "title":  "Revenue Over Time",
+                       "gridPos":  {
+                                       "h":  8,
+                                       "w":  12,
+                                       "x":  0,
+                                       "y":  10
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_gold_revenue",
+                                           "legendFormat":  "Revenue",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  11,
+                       "type":  "timeseries",
+                       "title":  "Orders vs DLQ",
+                       "gridPos":  {
+                                       "h":  8,
+                                       "w":  12,
+                                       "x":  12,
+                                       "y":  10
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_silver_orders",
+                                           "legendFormat":  "Orders",
+                                           "refId":  "A"
+                                       },
+                                       {
+                                           "expr":  "commerce_dlq_size",
+                                           "legendFormat":  "DLQ",
+                                           "refId":  "B"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  12,
+                       "type":  "stat",
+                       "title":  "Kafka Ã¢â€ â€™ Bronze Total Lag",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  6,
+                                       "x":  0,
+                                       "y":  18
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_kafka_bronze_lag_total",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  13,
+                       "type":  "stat",
+                       "title":  "Kafka Ã¢â€ â€™ Bronze Max Partition Lag",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  6,
+                                       "x":  6,
+                                       "y":  18
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_kafka_bronze_lag_max",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  14,
+                       "type":  "stat",
+                       "title":  "Bronze Records Processed",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  6,
+                                       "x":  12,
+                                       "y":  18
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_bronze_events_total",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  15,
+                       "type":  "stat",
+                       "title":  "Kafka Events/sec",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  6,
+                                       "x":  18,
+                                       "y":  18
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "sum(clamp_min(deriv(kafka_topic_partition_current_offset{topic=~\"shop[.]commerce[.].+\"}[1m]), 0))",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  16,
+                       "type":  "stat",
+                       "title":  "Avg Processing Latency (s)",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  6,
+                                       "x":  0,
+                                       "y":  23
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_processing_latency_avg_seconds",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   },
+                   {
+                       "id":  17,
+                       "type":  "stat",
+                       "title":  "Max Processing Latency (s)",
+                       "gridPos":  {
+                                       "h":  5,
+                                       "w":  6,
+                                       "x":  6,
+                                       "y":  23
+                                   },
+                       "datasource":  {
+                                          "type":  "prometheus",
+                                          "uid":  "prometheus"
+                                      },
+                       "targets":  [
+                                       {
+                                           "expr":  "commerce_processing_latency_max_seconds",
+                                           "refId":  "A"
+                                       }
+                                   ]
+                   }
+               ],
+    "refresh":  "15s",
+    "schemaVersion":  39,
+    "tags":  [
+                 "commerce",
+                 "lakehouse",
+                 "prometheus"
+             ],
+    "time":  {
+                 "from":  "now-1h",
+                 "to":  "now"
+             },
+    "timezone":  "browser",
+    "title":  "Commerce Lakehouse Monitoring",
+    "uid":  "commerce-lakehouse-monitoring",
+    "version":  1
+}

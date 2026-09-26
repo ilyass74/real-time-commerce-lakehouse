@@ -1,0 +1,94 @@
+﻿name: Commerce Lakehouse CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate project
+    runs-on: ubuntu-latest
+
+    env:
+      COMMERCE_DB_PASSWORD: ci_local_password
+      GRAFANA_ADMIN_PASSWORD: ci_local_password
+      AIRFLOW_DB_PASSWORD: ci_local_password
+      AIRFLOW_WEBSERVER_SECRET_KEY: ci-local-secret-key
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check Python syntax
+        run: |
+          python -m compileall \
+            airflow \
+            data-generator \
+            spark
+
+      - name: Check shell scripts
+        shell: bash
+        run: |
+          find dbt -type f -name "*.sh" -print0 | \
+          xargs -0 -r -n1 bash -n
+
+      - name: Validate Grafana dashboard JSON
+        run: |
+          python -m json.tool \
+            monitoring/grafana/provisioning/dashboards/json/commerce-lakehouse.json \
+            > /dev/null
+
+      - name: Validate main Docker Compose
+        run: |
+          docker compose \
+            -f docker-compose.yml \
+            config --quiet
+
+      - name: Validate Airflow Docker Compose
+        run: |
+          docker compose \
+            -f docker-compose.yml \
+            -f docker-compose.airflow.yml \
+            config --quiet
+
+      - name: Validate monitoring Docker Compose
+        run: |
+          docker compose \
+            -f docker-compose.yml \
+            -f docker-compose.monitoring.yml \
+            config --quiet
+
+      - name: Install dbt
+        run: |
+          python -m pip install --upgrade pip
+          pip install \
+            dbt-core==1.8.6 \
+            dbt-spark==1.8.0 \
+            isodate==0.6.1
+
+      - name: Validate dbt project
+        working-directory: dbt
+        run: |
+          dbt parse \
+            --profiles-dir . \
+            --no-partial-parse
+
+      - name: Ensure runtime files are not committed
+        shell: bash
+        run: |
+          if git ls-files | grep -E '(^|/)\.env$|dbt/metastore_db/|lakehouse/warehouse/'; then
+            echo "Runtime or secret files are tracked by Git."
+            exit 1
+          fi
+
+          echo "Repository file check passed."

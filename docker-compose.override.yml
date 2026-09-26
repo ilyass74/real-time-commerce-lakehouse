@@ -1,0 +1,23 @@
+services:
+  spark:
+    image: apache/spark:3.5.7-python3
+    profiles: ["streaming"]
+    environment:
+      SPARK_LOCAL_IP: 127.0.0.1
+    volumes:
+      - ./spark:/opt/spark/apps:ro
+      - ./lakehouse:/data
+    entrypoint: ["/opt/spark/bin/spark-submit"]
+    command:
+      - --master
+      - local[2]
+      - --driver-memory
+      - 1g
+      - --conf
+      - spark.jars.ivy=/data/ivy
+      - --packages
+      - org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.7,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.7.2
+      - /opt/spark/apps/streaming/bronze_iceberg.py
+    depends_on:
+      kafka:
+        condition: service_healthy

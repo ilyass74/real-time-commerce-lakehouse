@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: silver
+    schema: silver
+
+    tables:
+      - name: customers
+      - name: orders
+      - name: products
+      - name: order_items
+      - name: payments
+      - name: inventory

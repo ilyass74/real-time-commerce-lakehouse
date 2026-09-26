@@ -1,0 +1,24 @@
+name: commerce_lakehouse
+version: "1.0"
+config-version: 2
+
+profile: commerce_lakehouse
+
+model-paths:
+  - models
+
+clean-targets:
+  - target
+  - dbt_packages
+
+models:
+  commerce_lakehouse:
+
+    staging:
+      +materialized: ephemeral
+
+    marts:
+      +materialized: table
+      +file_format: iceberg
+      +tblproperties:
+        format-version: "2"

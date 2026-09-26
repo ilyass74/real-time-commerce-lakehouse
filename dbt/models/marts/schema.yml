@@ -1,0 +1,137 @@
+version: 2
+
+models:
+
+  - name: dim_customer
+    columns:
+      - name: customer_key
+        data_tests:
+          - not_null
+          - unique
+
+  - name: dim_product
+    columns:
+      - name: product_key
+        data_tests:
+          - not_null
+          - unique
+
+  - name: dim_date
+    columns:
+      - name: date_key
+        data_tests:
+          - not_null
+          - unique
+
+  - name: fact_orders
+    columns:
+
+      - name: order_item_key
+        data_tests:
+          - not_null
+          - unique
+
+      - name: order_id
+        data_tests:
+          - not_null
+
+      - name: customer_key
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_key
+
+      - name: product_key
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: product_key
+
+      - name: date_key
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: status
+        data_tests:
+          - accepted_values:
+              values:
+                - CREATED
+                - PAID
+                - SHIPPED
+                - CANCELLED
+
+      - name: currency
+        data_tests:
+          - accepted_values:
+              values:
+                - MAD
+
+  - name: fact_payments
+    columns:
+
+      - name: payment_key
+        data_tests:
+          - not_null
+          - unique
+
+      - name: order_id
+        data_tests:
+          - relationships:
+              to: ref('fact_orders')
+              field: order_id
+
+  - name: daily_sales
+    columns:
+      - name: order_date
+        data_tests:
+          - not_null
+
+
+  - name: product_performance
+    columns:
+      - name: product_key
+        data_tests:
+          - not_null
+          - unique
+
+      - name: total_revenue
+        data_tests:
+          - not_null
+
+  - name: customer_metrics
+    columns:
+      - name: customer_key
+        data_tests:
+          - not_null
+          - unique
+
+  - name: inventory_kpis
+    columns:
+      - name: product_key
+        data_tests:
+          - not_null
+          - unique
+
+      - name: stock_status
+        data_tests:
+          - accepted_values:
+              values:
+                - OUT_OF_STOCK
+                - LOW_STOCK
+                - MEDIUM_STOCK
+                - IN_STOCK
+
+  - name: sales_by_region
+    columns:
+      - name: city
+        data_tests:
+          - not_null
+
+      - name: total_revenue
+        data_tests:
+          - not_null

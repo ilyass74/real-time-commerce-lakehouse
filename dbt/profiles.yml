@@ -1,0 +1,12 @@
+commerce_lakehouse:
+
+  target: dev
+
+  outputs:
+
+    dev:
+      type: spark
+      method: session
+      host: NA
+      schema: gold
+      threads: 1
