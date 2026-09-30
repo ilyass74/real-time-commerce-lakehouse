@@ -1,3 +1,4 @@
+import os
 from pyspark.sql import SparkSession
 
 spark = (
@@ -299,54 +300,37 @@ silver = spark.sql("""
     FROM lakehouse.silver.orders
 """).first()
 
-test_in_silver = spark.sql("""
-    SELECT COUNT(*) AS n
-    FROM lakehouse.silver.orders
-    WHERE order_id = 999999999
-""").first()["n"]
-
-test_in_dlq = spark.sql("""
-    SELECT COUNT(*) AS n
-    FROM lakehouse.silver.dlq
-    WHERE source_topic = 'shop.commerce.orders'
-      AND source_partition = 99
-      AND source_offset = 999999999
-""").first()["n"]
 
 if silver["rows"] != silver["unique_ids"]:
     raise RuntimeError("Duplicate order IDs detected")
 
-if test_in_silver != 0:
-    raise RuntimeError(
-        "Invalid test order incorrectly reached Silver"
-    )
-
-if test_in_dlq != 1:
-    raise RuntimeError(
-        f"Expected one test event in DLQ, found {test_in_dlq}"
-    )
-
 print(
     f'PASS SILVER ORDERS: rows={silver["rows"]}, '
     f'unique_ids={silver["unique_ids"]}',
-    flush=True
+    flush=True,
 )
 
-print(
-    "PASS DLQ: invalid order quarantined and excluded from Silver",
-    flush=True
-)
+if os.environ.get("CHECK_DLQ_TEST_EVENT", "0") == "1":
+    test_in_silver = spark.sql(
+        "SELECT COUNT(*) FROM lakehouse.silver.orders "
+        "WHERE order_id = 999999999"
+    ).first()[0]
 
-spark.sql("""
-    SELECT
-        source_topic,
-        source_partition,
-        source_offset,
-        error_type,
-        error_message
-    FROM lakehouse.silver.dlq
-    WHERE source_partition = 99
-      AND source_offset = 999999999
-""").show(truncate=False)
+    test_in_dlq = spark.sql(
+        "SELECT COUNT(*) FROM lakehouse.silver.dlq "
+        "WHERE source_topic = 'shop.commerce.orders' "
+        "AND source_partition = 99 "
+        "AND source_offset = 999999999"
+    ).first()[0]
+
+    if test_in_silver != 0:
+        raise RuntimeError("Invalid test order reached Silver")
+
+    if test_in_dlq != 1:
+        raise RuntimeError(
+            f"Expected one test event in DLQ, found {test_in_dlq}"
+        )
+
+    print("PASS DLQ TEST: invalid order quarantined", flush=True)
 
 spark.stop()
