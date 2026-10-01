@@ -1,0 +1,18 @@
+services:
+  minio:
+    build:
+      context: ./storage/minio
+    image: commerce-minio:source-20251015
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Set MINIO_ROOT_USER in .env}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Set MINIO_ROOT_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - minio_data:/data
+    restart: unless-stopped
+
+volumes:
+  minio_data:
