@@ -39,3 +39,10 @@ Thumbs.db
 # dbt local/runtime metadata
 dbt/metastore_db/
 dbt/.user.yml
+
+# Local MinIO runtime files
+/dbt/target-minio/
+/dbt/logs-minio/
+/lakehouse/cutover/
+/airflow/dags/commerce_lakehouse_minio.py.bak
+/dbt/minio/.user.yml

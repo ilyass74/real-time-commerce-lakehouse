@@ -1,0 +1,33 @@
+x-minio-env: &minio-env
+  SPARK_LOCAL_IP: 127.0.0.1
+  PG_PASSWORD: ${COMMERCE_DB_PASSWORD:?Missing COMMERCE_DB_PASSWORD}
+  AWS_ACCESS_KEY_ID: ${MINIO_ROOT_USER:?Missing MINIO_ROOT_USER}
+  AWS_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:?Missing MINIO_ROOT_PASSWORD}
+  AWS_REGION: us-east-1
+  AWS_EC2_METADATA_DISABLED: 'true'
+services:
+  airflow-scheduler:
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Missing MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Missing MINIO_ROOT_PASSWORD}
+  airflow-webserver:
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?Missing MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?Missing MINIO_ROOT_PASSWORD}
+  minio-runner:
+    image: apache/spark:3.5.7-python3
+    profiles: [cutover]
+    environment: *minio-env
+    volumes:
+      - ./spark:/opt/spark/apps:ro
+      - ./lakehouse:/data
+    entrypoint:
+      - /opt/spark/bin/spark-submit
+      - --master
+      - local[2]
+      - --driver-memory
+      - 1g
+      - --conf
+      - spark.jars.ivy=/data/ivy
+      - --packages
+      - org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.7.2,org.apache.iceberg:iceberg-aws-bundle:1.7.2,org.postgresql:postgresql:42.7.4,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.7
