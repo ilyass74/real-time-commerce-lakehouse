@@ -1,0 +1,40 @@
+services:
+  airflow-init:
+    image: commerce-lakehouse-airflow-init:latest
+    pull_policy: never
+    group_add: ["988"]
+    environment:
+      PROJECT_ROOT: "/home/azureuser/real-time-commerce-lakehouse"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+    profiles: ["manual-init"]
+  airflow-scheduler:
+    image: commerce-lakehouse-airflow-scheduler:latest
+    pull_policy: never
+    group_add: ["988"]
+    environment:
+      PROJECT_ROOT: "/home/azureuser/real-time-commerce-lakehouse"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+  airflow-webserver:
+    image: commerce-lakehouse-airflow-webserver:latest
+    pull_policy: never
+    group_add: ["988"]
+    environment:
+      PROJECT_ROOT: "/home/azureuser/real-time-commerce-lakehouse"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+    ports: !override
+      - "127.0.0.1:8081:8080"
+  minio:
+    image: commerce-minio:source-20251015
+    pull_policy: never
+  grafana:
+    ports: !override
+      - "127.0.0.1:3000:3000"
+  prometheus:
+    ports: !override
+      - "127.0.0.1:9090:9090"
+  pushgateway:
+    ports: !override
+      - "127.0.0.1:9091:9091"
+  kafka-exporter:
+    ports: !override
+      - "127.0.0.1:9308:9308"

@@ -1,0 +1,31 @@
+{
+  "services": {
+    "postgres": {
+      "image": "postgres@sha256:d74eeac9a635390a49bc21bd49fccd973de707e2a53a76ac49b552b8712ec46f"
+    },
+    "airflow-db": {
+      "image": "postgres@sha256:9b1d34adbce1dd07ee6e94b4a2cf698884b89bd44a6c9c12f5da8f3acbfe4957"
+    },
+    "kafka": {
+      "image": "apache/kafka@sha256:4ceccc577f03f51f6af8dbfda55194d0d892f4fa7913ffbded567ce3895622ed"
+    },
+    "connect": {
+      "image": "quay.io/debezium/connect@sha256:3990add513c1b6b5df0072b89e4f58ac4879eae42afae2dff3e07271c0b96487"
+    },
+    "grafana": {
+      "image": "grafana/grafana@sha256:ac461fb352abc50da10a51c7d02462e9c05488f11f53f14b3ad79a8145f638a0"
+    },
+    "prometheus": {
+      "image": "prom/prometheus@sha256:efd719c99d83b060d9daefdcf00360461adf279f45ef5391f8d111892118753e"
+    },
+    "pushgateway": {
+      "image": "prom/pushgateway@sha256:74fa117cef2d7e383112d25139ff1c2d2e309c35389a9e0554a47136a1482e48"
+    },
+    "kafka-exporter": {
+      "image": "danielqsj/kafka-exporter@sha256:d1014f41712d979f4fd01427b2ecd684e0b22fd756bfcd6a9d0c6b550038c724"
+    },
+    "minio-runner": {
+      "image": "apache/spark@sha256:936ff39fd63e2bb5ed064f0fbe1518198473f1cdbfa2f863d087a9a8e58116ba"
+    }
+  }
+}
