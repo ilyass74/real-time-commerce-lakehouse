@@ -2,7 +2,7 @@
 
 A local data engineering project that captures PostgreSQL changes with Debezium and Kafka, processes them with Spark, and stores Bronze, Silver and Gold Iceberg tables in MinIO. Airflow orchestrates transformations and checks; dbt builds analytical models.
 
-**Validated milestone:** the MinIO cutover completed on 1 October 2026. The project owner's local validation showed all 14 Airflow tasks successful, all 20 migrated tables readable in MinIO, and original local-table snapshots unchanged. The implementation was pushed in commit `564e49f`.
+**Validated milestone:** the MinIO cutover completed on 1 October 2026. The project  local validation showed all 14 Airflow tasks successful, all 20 migrated tables readable in MinIO, and original local-table snapshots unchanged. The implementation was pushed in commit `564e49f`.
 
 ## Architecture
 
